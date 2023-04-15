@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Imposto de Renda 2022</title>
+  </head>
+  <body>
+    <script>
+      salario = parseFloat(prompt("Coloque o seu Salário Bruto"));
+      var sl = "Salário Líquido em Reais: ";
+
+      while (salario <= 0) {
+        alert("              ERRO!\nColoque um salário maior que 0");
+        salario = parseFloat(prompt("Coloque o seu Salário Bruto"));
+      }
+
+      //INSS:
+      inss1 = 90.9; // 0 até 1212
+      inss2 = 109.3806; // 1212 até 2427
+      inss3 = 145.6404; // 2427 até 3641
+      inss4 = 482.4652; // 3641 até 7087
+      inss5 = 828.39; // mais que 7087
+
+      faixa1 = (salario * 7.5) / 100; // 0 até 1212
+      faixa2 = ((salario - 1212.01) * 9) / 100; // 1212 até 2427
+      faixa3 = ((salario - 2427.36) * 12) / 100; // 2427 até 3641
+      faixa4 = ((salario - 3641.04) * 14) / 100; // 3641 até 7087
+
+      inssfinal1 = faixa1; // 0 até 1212
+      inssfinal2 = faixa2 + inss1; // 1212 até 2427
+      inssfinal3 = faixa3 + inss1 + inss2; // 2427 até 3641
+      inssfinal4 = faixa4 + inss1 + inss2 + inss3; // 3641 até 7087
+      inssfinal5 = inss5; // mais que 7087
+
+      //Salário base:
+      base2 = salario - inssfinal2; // 1212 até 2427
+      base3 = salario - inssfinal3; // 2427 até 3641
+      base4 = salario - inssfinal4; // 3641 até 7087
+      base5 = salario - inssfinal5; // mais que 7087
+
+      //IRPF:
+      ir1 = 0; // até 1903
+      ir2 = 69.2; // 1903 até 2826
+      ir3 = 138.66; // 2826 até 3751
+      ir4 = 205.57; // 3751 até 4664
+
+      faixair2 = ((base2 - 1903.99) * 7.5) / 100; // 1903 até 2427
+      faixair22 = ((base3 - 1903.99) * 7.5) / 100; // 2427 até 2826
+      faixair3 = ((base3 - 2826.66) * 15) / 100; // 2826 até 3641
+      faixair33 = ((base4 - 2826.66) * 15) / 100; // 3641 até 3751
+      faixair4 = ((base4 - 3751.06) * 22.5) / 100; // 3751 até 4664
+      faixair5 = ((base4 - 4664.68) * 27.5) / 100; // 4664 até 7087
+      faixair55 = ((base5 - 4664.68) * 27.5) / 100; // mais que 7087
+
+      irfinal1 = 0; // até 1903
+      irfinal2 = faixair2; // 1903 até 2427
+      irfinal22 = faixair22; // 2427 até 2826
+      irfinal3 = faixair3 + ir2; // 2826 até 3641
+      irfinal33 = faixair33 + ir2; // 3641 até 3751
+      irfinal4 = faixair4 + ir2 + ir3; // 3751 até 4664
+      irfinal5 = faixair5 + ir2 + ir3 + ir4; // 4664 até 7087
+      irfinal55 = faixair55 + ir2 + ir3 + ir4; // mais que 7087
+
+      //Código:
+      if (salario <= 1903.98) {
+        if (salario <= 1212) {
+          alert(sl + (salario - irfinal1 - inssfinal1).toFixed(2));
+        } else alert(sl + (salario - irfinal1 - inssfinal2).toFixed(2));
+      } else if (salario > 1903.98 && salario <= 2826.65) {
+        if (salario <= 2427.35) {
+          if (base2 < 1903.99) {
+            alert(sl + (salario - irfinal1 - inssfinal2).toFixed(2));
+          } else alert(sl + (salario - irfinal2 - inssfinal2).toFixed(2));
+        } else alert(sl + (salario - irfinal22 - inssfinal3).toFixed(2));
+      } else if (salario > 2826.65 && salario <= 3751.05) {
+        if (salario <= 3641.03) {
+          if (base3 < 2826.65) {
+            alert(sl + (salario - irfinal22 - inssfinal3).toFixed(2));
+          } else alert(sl + (salario - irfinal3 - inssfinal3).toFixed(2));
+        } else alert(sl + (salario - irfinal33 - inssfinal4).toFixed(2));
+      } else if (salario > 3751.05 && salario <= 4664.68) {
+        if (base4 < 3641) {
+          alert(sl + (salario - irfinal3 - inssfinal4).toFixed(2));
+        } else alert(sl + (salario - irfinal4 - inssfinal4).toFixed(2));
+      } else if (salario > 4664.68) {
+        if (salario <= 7087.22) {
+          if (base4 < 4664.68) {
+            alert(sl + (salario - irfinal4 - inssfinal4).toFixed(2));
+          } else alert(sl + (salario - irfinal5 - inssfinal4).toFixed(2));
+        } else alert(sl + (salario - irfinal55 - inssfinal5).toFixed(2));
+      }
+    </script>
+  </body>
+</html>
